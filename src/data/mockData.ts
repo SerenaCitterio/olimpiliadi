@@ -1,0 +1,126 @@
+import { Tournament, TeamMatchStats } from "@/types/tournament";
+
+const emptyStats: TeamMatchStats = {
+  flash: 0,
+  goalAttacker: 0,
+  goalDefender: 0,
+  autogoalAttacker: 0,
+  autogoalDefender: 0,
+};
+
+export const mockTournament: Tournament = {
+  groups: [
+    {
+      id: "A",
+      name: "Girone A",
+      teams: [
+        { id: "A1", name: "I Draghi", emoji: "🐉", defender: "Mario Rossi", attacker: "Luigi Bianchi" },
+        { id: "A2", name: "I Leoni", emoji: "LE", defender: "Giuseppe Verdi", attacker: "Antonio Neri" },
+        { id: "A3", name: "Gli Squali", emoji: "🦈", defender: "Marco Blu", attacker: "Paolo Gialli" },
+        { id: "A4", name: "Le Aquile", emoji: "AQ", defender: "Luca Rossi", attacker: "Simone Verde" },
+        { id: "A5", name: "I Tigri", emoji: "🐅", defender: "Andrea Bianco", attacker: "Francesco Rosso" },
+        { id: "A6", name: "I Lupi", emoji: "🐺", defender: "Davide Nero", attacker: "Matteo Azzurro" },
+      ],
+      matches: [
+        { id: "A1", team1: "A1", team2: "A2", score1: 3, score2: 1, team1Stats: emptyStats, team2Stats: emptyStats },
+        { id: "A2", team1: "A3", team2: "A4", score1: 2, score2: 2, team1Stats: emptyStats, team2Stats: emptyStats },
+        { id: "A3", team1: "A5", team2: "A6", score1: 1, score2: 4, team1Stats: emptyStats, team2Stats: emptyStats },
+        { id: "A4", team1: "A1", team2: "A3", score1: 2, score2: 0, team1Stats: emptyStats, team2Stats: emptyStats },
+        { id: "A5", team1: "A2", team2: "A5", score1: 1, score2: 1, team1Stats: emptyStats, team2Stats: emptyStats },
+        { id: "A6", team1: "A4", team2: "A6", score1: 3, score2: 1, team1Stats: emptyStats, team2Stats: emptyStats },
+      ],
+      standings: [
+        { teamId: "A1", teamName: "I Draghi", played: 3, won: 2, drawn: 1, lost: 0, goalsFor: 5, goalsAgainst: 1, goalDifference: 4, points: 7 },
+        { teamId: "A6", teamName: "I Lupi", played: 3, won: 2, drawn: 0, lost: 1, goalsFor: 5, goalsAgainst: 3, goalDifference: 2, points: 6 },
+        { teamId: "A4", teamName: "Le Aquile", played: 3, won: 1, drawn: 2, lost: 0, goalsFor: 5, goalsAgainst: 3, goalDifference: 2, points: 5 },
+        { teamId: "A3", teamName: "Gli Squali", played: 3, won: 1, drawn: 1, lost: 1, goalsFor: 4, goalsAgainst: 4, goalDifference: 0, points: 4 },
+        { teamId: "A2", teamName: "I Leoni", played: 3, won: 0, drawn: 2, lost: 1, goalsFor: 2, goalsAgainst: 4, goalDifference: -2, points: 2 },
+        { teamId: "A5", teamName: "I Tigri", played: 3, won: 0, drawn: 1, lost: 2, goalsFor: 2, goalsAgainst: 7, goalDifference: -5, points: 1 },
+      ],
+    },
+    {
+      id: "B",
+      name: "Girone B",
+      teams: [
+        { id: "B1", name: "I Falchi", emoji: "FA", defender: "Roberto Bianchi", attacker: "Stefano Rossi" },
+        { id: "B2", name: "Gli Orsi", emoji: "🐻", defender: "Fabio Verde", attacker: "Alessandro Blu" },
+        { id: "B3", name: "I Puma", emoji: "PU", defender: "Enrico Gialli", attacker: "Riccardo Nero" },
+        { id: "B4", name: "Le Pantere", emoji: "🐈‍⬛", defender: "Gianluca Rosso", attacker: "Daniele Azzurro" },
+        { id: "B5", name: "I Ghepardi", emoji: "GH", defender: "Massimo Bianco", attacker: "Claudio Verde" },
+        { id: "B6", name: "I Giaguari", emoji: "🐅", defender: "Emanuele Rossi", attacker: "Federico Blu" },
+      ],
+      matches: [
+        { id: "B1", team1: "B1", team2: "B2", score1: 2, score2: 0, team1Stats: emptyStats, team2Stats: emptyStats },
+        { id: "B2", team1: "B3", team2: "B4", score1: 1, score2: 3, team1Stats: emptyStats, team2Stats: emptyStats },
+        { id: "B3", team1: "B5", team2: "B6", score1: 4, score2: 2, team1Stats: emptyStats, team2Stats: emptyStats },
+        { id: "B4", team1: "B1", team2: "B3", score1: 3, score2: 1, team1Stats: emptyStats, team2Stats: emptyStats },
+        { id: "B5", team1: "B2", team2: "B5", score1: 0, score2: 2, team1Stats: emptyStats, team2Stats: emptyStats },
+        { id: "B6", team1: "B4", team2: "B6", score1: 1, score2: 1, team1Stats: emptyStats, team2Stats: emptyStats },
+      ],
+      standings: [
+        { teamId: "B1", teamName: "I Falchi", played: 3, won: 3, drawn: 0, lost: 0, goalsFor: 5, goalsAgainst: 1, goalDifference: 4, points: 9 },
+        { teamId: "B5", teamName: "I Ghepardi", played: 3, won: 2, drawn: 0, lost: 1, goalsFor: 6, goalsAgainst: 3, goalDifference: 3, points: 6 },
+        { teamId: "B4", teamName: "Le Pantere", played: 3, won: 1, drawn: 1, lost: 1, goalsFor: 4, goalsAgainst: 3, goalDifference: 1, points: 4 },
+        { teamId: "B6", teamName: "I Giaguari", played: 3, won: 0, drawn: 1, lost: 2, goalsFor: 3, goalsAgainst: 5, goalDifference: -2, points: 1 },
+        { teamId: "B3", teamName: "I Puma", played: 3, won: 1, drawn: 0, lost: 2, goalsFor: 2, goalsAgainst: 4, goalDifference: -2, points: 3 },
+        { teamId: "B2", teamName: "Gli Orsi", played: 3, won: 0, drawn: 0, lost: 3, goalsFor: 0, goalsAgainst: 5, goalDifference: -5, points: 0 },
+      ],
+    },
+    {
+      id: "C",
+      name: "Girone C",
+      teams: [
+        { id: "C1", name: "I Cobra", emoji: "🐍", defender: "Lorenzo Bianchi", attacker: "Tommaso Rossi" },
+        { id: "C2", name: "Le Vipere", emoji: "VI", defender: "Gabriele Verde", attacker: "Nicola Blu" },
+        { id: "C3", name: "I Serpenti", emoji: "🦎", defender: "Valerio Gialli", attacker: "Alessio Nero" },
+        { id: "C4", name: "Gli Scorpioni", emoji: "SC", defender: "Giacomo Rosso", attacker: "Leonardo Azzurro" },
+        { id: "C5", name: "I Ragni", emoji: "🕷️", defender: "Mattia Bianco", attacker: "Samuele Verde" },
+        { id: "C6", name: "Le Mantidi", emoji: "MA", defender: "Filippo Rossi", attacker: "Giovanni Blu" },
+      ],
+      matches: [
+        { id: "C1", team1: "C1", team2: "C2", score1: 1, score2: 1, team1Stats: emptyStats, team2Stats: emptyStats },
+        { id: "C2", team1: "C3", team2: "C4", score1: 2, score2: 1, team1Stats: emptyStats, team2Stats: emptyStats },
+        { id: "C3", team1: "C5", team2: "C6", score1: 0, score2: 3, team1Stats: emptyStats, team2Stats: emptyStats },
+        { id: "C4", team1: "C1", team2: "C3", score1: 3, score2: 0, team1Stats: emptyStats, team2Stats: emptyStats },
+        { id: "C5", team1: "C2", team2: "C5", score1: 2, score2: 1, team1Stats: emptyStats, team2Stats: emptyStats },
+        { id: "C6", team1: "C4", team2: "C6", score1: 1, score2: 2, team1Stats: emptyStats, team2Stats: emptyStats },
+      ],
+      standings: [
+        { teamId: "C1", teamName: "I Cobra", played: 3, won: 2, drawn: 1, lost: 0, goalsFor: 4, goalsAgainst: 1, goalDifference: 3, points: 7 },
+        { teamId: "C6", teamName: "Le Mantidi", played: 3, won: 2, drawn: 0, lost: 1, goalsFor: 5, goalsAgainst: 2, goalDifference: 3, points: 6 },
+        { teamId: "C2", teamName: "Le Vipere", played: 3, won: 1, drawn: 1, lost: 1, goalsFor: 3, goalsAgainst: 3, goalDifference: 0, points: 4 },
+        { teamId: "C3", teamName: "I Serpenti", played: 3, won: 1, drawn: 0, lost: 2, goalsFor: 3, goalsAgainst: 5, goalDifference: -2, points: 3 },
+        { teamId: "C4", teamName: "Gli Scorpioni", played: 3, won: 1, drawn: 0, lost: 2, goalsFor: 2, goalsAgainst: 4, goalDifference: -2, points: 3 },
+        { teamId: "C5", teamName: "I Ragni", played: 3, won: 0, drawn: 0, lost: 3, goalsFor: 1, goalsAgainst: 4, goalDifference: -3, points: 0 },
+      ],
+    },
+    {
+      id: "D",
+      name: "Girone D",
+      teams: [
+        { id: "D1", name: "I Delfini", emoji: "🐬", defender: "Marco Bianchi", attacker: "Luca Rossi" },
+        { id: "D2", name: "Le Balene", emoji: "BA", defender: "Paolo Verde", attacker: "Andrea Blu" },
+        { id: "D3", name: "Gli Squali", emoji: "🦈", defender: "Francesco Gialli", attacker: "Davide Nero" },
+        { id: "D4", name: "I Polpi", emoji: "🐙", defender: "Matteo Rosso", attacker: "Simone Azzurro" },
+        { id: "D5", name: "Le Meduse", emoji: "ME", defender: "Giuseppe Bianco", attacker: "Antonio Verde" },
+        { id: "D6", name: "I Granchi", emoji: "🦀", defender: "Roberto Rossi", attacker: "Stefano Blu" },
+      ],
+      matches: [
+        { id: "D1", team1: "D1", team2: "D2", score1: 4, score2: 1, team1Stats: emptyStats, team2Stats: emptyStats },
+        { id: "D2", team1: "D3", team2: "D4", score1: 0, score2: 2, team1Stats: emptyStats, team2Stats: emptyStats },
+        { id: "D3", team1: "D5", team2: "D6", score1: 1, score2: 1, team1Stats: emptyStats, team2Stats: emptyStats },
+        { id: "D4", team1: "D1", team2: "D3", score1: 2, score2: 1, team1Stats: emptyStats, team2Stats: emptyStats },
+        { id: "D5", team1: "D2", team2: "D5", score1: 3, score2: 0, team1Stats: emptyStats, team2Stats: emptyStats },
+        { id: "D6", team1: "D4", team2: "D6", score1: 1, score2: 3, team1Stats: emptyStats, team2Stats: emptyStats },
+      ],
+      standings: [
+        { teamId: "D1", teamName: "I Delfini", played: 3, won: 3, drawn: 0, lost: 0, goalsFor: 6, goalsAgainst: 2, goalDifference: 4, points: 9 },
+        { teamId: "D6", teamName: "I Granchi", played: 3, won: 2, drawn: 0, lost: 1, goalsFor: 4, goalsAgainst: 2, goalDifference: 2, points: 6 },
+        { teamId: "D2", teamName: "Le Balene", played: 3, won: 1, drawn: 0, lost: 2, goalsFor: 4, goalsAgainst: 5, goalDifference: -1, points: 3 },
+        { teamId: "D4", teamName: "I Polpi", played: 3, won: 1, drawn: 0, lost: 2, goalsFor: 3, goalsAgainst: 3, goalDifference: 0, points: 3 },
+        { teamId: "D3", teamName: "Gli Squali", played: 3, won: 0, drawn: 0, lost: 3, goalsFor: 1, goalsAgainst: 4, goalDifference: -3, points: 0 },
+        { teamId: "D5", teamName: "Le Meduse", played: 3, won: 0, drawn: 1, lost: 2, goalsFor: 1, goalsAgainst: 4, goalDifference: -3, points: 1 },
+      ],
+    },
+  ],
+};

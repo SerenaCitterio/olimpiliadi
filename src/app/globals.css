@@ -1,0 +1,221 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Tournament bracket ─────────────────────────────────── */
+/* Connector lines use ::after / ::before pseudo-elements on
+   each seed wrapper, following the react-brackets technique.
+   Seeds are packed flush (justify-content: center) so the
+   vertical bar between odd/even seeds is continuous.          */
+
+.bracket-root {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  min-height: 280px;
+}
+
+.bracket-round {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.bracket-title {
+  text-align: center;
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted-foreground);
+  padding-bottom: 0.75rem;
+  flex-shrink: 0;
+}
+
+.bracket-seeds {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+}
+
+.bracket-seed {
+  padding: 0.5em 1.5em;
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 0 1 auto;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 140px;
+}
+
+/* ── LTR connectors (left half → flows right) ── */
+
+/* Odd seed: top half of merge bracket "}" */
+.bracket-round-ltr .bracket-seed:nth-child(odd):not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 0;
+  height: 50%;
+  width: 1.5em;
+  border-top: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+}
+
+/* Even seed: bottom half of merge bracket "}" */
+.bracket-round-ltr .bracket-seed:nth-child(even)::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 50%;
+  width: 1.5em;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+}
+
+/* Even seed: outgoing line bridging to next round */
+.bracket-round-ltr .bracket-seed:nth-child(even)::before {
+  content: "";
+  position: absolute;
+  top: -0.5px;
+  right: -1.5em;
+  width: 1.5em;
+  border-top: 1px solid var(--border);
+}
+
+/* Single seed: straight line to next round */
+.bracket-round-ltr .bracket-seed:only-child::after {
+  content: "";
+  position: absolute;
+  top: calc(50% - 0.5px);
+  right: -1.5em;
+  width: 3em;
+  height: 0;
+  border-top: 1px solid var(--border);
+  border-right: none;
+  border-bottom: none;
+}
+
+/* ── RTL connectors (right half → flows left) ── */
+
+/* Odd seed: top half of merge bracket "{" */
+.bracket-round-rtl .bracket-seed:nth-child(odd):not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 50%;
+  width: 1.5em;
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+}
+
+/* Even seed: bottom half of merge bracket "{" */
+.bracket-round-rtl .bracket-seed:nth-child(even)::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 50%;
+  width: 1.5em;
+  border-bottom: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+}
+
+/* Even seed: outgoing line bridging to next round */
+.bracket-round-rtl .bracket-seed:nth-child(even)::before {
+  content: "";
+  position: absolute;
+  top: -0.5px;
+  left: -1.5em;
+  width: 1.5em;
+  border-top: 1px solid var(--border);
+}
+
+/* Single seed: straight line to next round */
+.bracket-round-rtl .bracket-seed:only-child::after {
+  content: "";
+  position: absolute;
+  top: calc(50% - 0.5px);
+  left: -1.5em;
+  width: 3em;
+  height: 0;
+  border-top: 1px solid var(--border);
+  border-left: none;
+  border-bottom: none;
+}
+
+:root {
+  --radius: 1rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.072 27.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.18 0 0);
+  --foreground: oklch(0.95 0 0);
+  --card: oklch(0.22 0 0);
+  --card-foreground: oklch(0.95 0 0);
+  --popover: oklch(0.25 0 0);
+  --popover-foreground: oklch(0.95 0 0);
+  --primary: oklch(1 0 0);
+  --primary-foreground: oklch(0.17 0 0);
+  --secondary: oklch(0.25 0 0);
+  --secondary-foreground: oklch(0.98 0 0);
+  --muted: oklch(0.25 0 0);
+  --muted-foreground: oklch(0.65 0 0);
+  --accent: oklch(0.30 0 0);
+  --accent-foreground: oklch(0.98 0 0);
+  --destructive: oklch(0.65 0.25 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.25 0 0);
+  --input: oklch(0.25 0 0);
+  --ring: oklch(1 0 0);
+  --chart-1: oklch(0.95 0 0);
+  --chart-2: oklch(0.75 0 0);
+  --chart-3: oklch(0.85 0 0);
+  --chart-4: oklch(0.65 0 0);
+  --chart-5: oklch(0.55 0 0);
+  --sidebar: oklch(0.18 0 0);
+  --sidebar-foreground: oklch(0.98 0 0);
+  --sidebar-primary: oklch(1 0 0);
+  --sidebar-primary-foreground: oklch(0.17 0 0);
+  --sidebar-accent: oklch(0.25 0 0);
+  --sidebar-accent-foreground: oklch(0.98 0 0);
+  --sidebar-border: oklch(0.25 0 0);
+  --sidebar-ring: oklch(1 0 0);
+}
