@@ -1,17 +1,12 @@
 "use client";
 
 import { useState, useMemo, useEffect, useCallback } from "react";
+import { Team } from "@/types/tournament";
 
 /* ── Types ───────────────────────────────────────────────── */
 
-interface TeamOption {
-  id: string;
-  name: string;
-  emoji: string;
-}
-
 interface NewMatchModalProps {
-  teams: TeamOption[];
+  teams: Team[];
   onClose: () => void;
   onSaved: () => void;
 }
@@ -101,7 +96,7 @@ function TeamSelect({
 }: {
   label: string;
   value: string;
-  options: TeamOption[];
+  options: Team[];
   disabledId?: string;
   onChange: (id: string) => void;
 }) {
@@ -137,33 +132,57 @@ const statFields: { key: keyof StatsForm; label: string }[] = [
 ];
 
 function StatsSection({
-  teamName,
-  teamEmoji,
+  team,
   stats,
   onChange,
+  showPlayerNames = false,
 }: {
-  teamName: string;
-  teamEmoji?: string;
+  team: Team,
   stats: StatsForm;
   onChange: (s: StatsForm) => void;
+  showPlayerNames?: boolean;
 }) {
+  // helper to produce label based on key and showPlayerNames
+  const getLabel = (key: keyof StatsForm, defaultLabel: string) => {
+    if (!showPlayerNames) return defaultLabel;
+
+    // Use attacker/defender names from team if available
+    const attacker = team.attacker || "Attaccante";
+    const defender = team.defender || "Difensore";
+
+    switch (key) {
+      case "goalAttacker":
+        return `Gol ${attacker}`;
+      case "goalDefender":
+        return `Gol ${defender}`;
+      case "autogoalAttacker":
+        return `Autogol ${attacker}`;
+      case "autogoalDefender":
+        return `Autogol ${defender}`;
+      case "flash":
+        return "Flash";
+      default:
+        return defaultLabel;
+    }
+  };
+
   return (
     <div>
       <div className="mb-2 flex items-center gap-2">
-        {teamEmoji && (
+        {team.emoji && (
           <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-muted text-xs font-bold">
-            {teamEmoji}
+            {team.emoji}
           </span>
         )}
         <h4 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-          {teamName || "Squadra"}
+          {team.name || "Squadra"}
         </h4>
       </div>
       <div className="flex flex-col gap-1.5">
         {statFields.map(({ key, label }) => (
           <Stepper
             key={key}
-            label={label}
+            label={getLabel(key, label)}
             value={stats[key]}
             onChange={(v) => onChange({ ...stats, [key]: v })}
           />
@@ -195,9 +214,22 @@ export default function NewMatchModal({ teams, onClose, onSaved }: NewMatchModal
   const [team2Stats, setTeam2Stats] = useState<StatsForm>(emptyStats);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showPlayerNames, setShowPlayerNames] = useState(false);
 
-  const team1 = teams.find((t) => t.id === team1Id);
-  const team2 = teams.find((t) => t.id === team2Id);
+  const team1 = teams.find((t) => t.id === team1Id) || {
+    id: "team1",
+    name: "Squadra 1",
+    emoji: "🍆",
+    defender: "Difensore 1",
+    attacker: "Attaccante 1",
+  };
+  const team2 = teams.find((t) => t.id === team2Id) || {
+    id: "team2",
+    name: "Squadra 2",
+    emoji: "🍆",
+    defender: "Difensore 2",
+    attacker: "Attaccante 2",
+  }
 
   // Auto-computed scores
   const score1 = useMemo(() => computeScore(team1Stats, team2Stats), [team1Stats, team2Stats]);
@@ -361,18 +393,30 @@ export default function NewMatchModal({ teams, onClose, onSaved }: NewMatchModal
           </div>
 
           {/* ── Stats: two columns on md+, stacked on mobile ── */}
+          {/* Toggle to switch labels between short and player names */}
+          <div className="flex items-center justify-end">
+            <label className="inline-flex items-center gap-3 text-sm font-medium text-muted-foreground">
+              <input
+                type="checkbox"
+                checked={showPlayerNames}
+                onChange={(e) => setShowPlayerNames(e.target.checked)}
+                className="h-4 w-4 rounded border-border bg-background text-primary focus:ring-0"
+              />
+              <span>Mostra nomi giocatori</span>
+            </label>
+          </div>
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
             <StatsSection
-              teamName={team1?.name ?? "Squadra 1"}
-              teamEmoji={team1?.emoji}
+              team={team1}
               stats={team1Stats}
               onChange={setTeam1Stats}
+              showPlayerNames={showPlayerNames}
             />
             <StatsSection
-              teamName={team2?.name ?? "Squadra 2"}
-              teamEmoji={team2?.emoji}
+              team={team2}
               stats={team2Stats}
               onChange={setTeam2Stats}
+              showPlayerNames={showPlayerNames}
             />
           </div>
 
