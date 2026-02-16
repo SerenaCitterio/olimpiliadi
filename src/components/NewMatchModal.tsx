@@ -1,17 +1,12 @@
 "use client";
 
 import { useState, useMemo, useEffect, useCallback } from "react";
+import { Team } from "@/types/tournament";
 
 /* ── Types ───────────────────────────────────────────────── */
 
-interface TeamOption {
-  id: string;
-  name: string;
-  emoji: string;
-}
-
 interface NewMatchModalProps {
-  teams: TeamOption[];
+  teams: Team[];
   onClose: () => void;
   onSaved: () => void;
 }
@@ -101,7 +96,7 @@ function TeamSelect({
 }: {
   label: string;
   value: string;
-  options: TeamOption[];
+  options: Team[];
   disabledId?: string;
   onChange: (id: string) => void;
 }) {
@@ -137,26 +132,24 @@ const statFields: { key: keyof StatsForm; label: string }[] = [
 ];
 
 function StatsSection({
-  teamName,
-  teamEmoji,
+  team,
   stats,
   onChange,
 }: {
-  teamName: string;
-  teamEmoji?: string;
+  team: Team,
   stats: StatsForm;
   onChange: (s: StatsForm) => void;
 }) {
   return (
     <div>
       <div className="mb-2 flex items-center gap-2">
-        {teamEmoji && (
+        {team.emoji && (
           <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-muted text-xs font-bold">
-            {teamEmoji}
+            {team.emoji}
           </span>
         )}
         <h4 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-          {teamName || "Squadra"}
+          {team.name || "Squadra"}
         </h4>
       </div>
       <div className="flex flex-col gap-1.5">
@@ -196,8 +189,20 @@ export default function NewMatchModal({ teams, onClose, onSaved }: NewMatchModal
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const team1 = teams.find((t) => t.id === team1Id);
-  const team2 = teams.find((t) => t.id === team2Id);
+  const team1 = teams.find((t) => t.id === team1Id) || {
+    id: "team1",
+    name: "Squadra 1",
+    emoji: "🍆",
+    defender: "Difensore 1",
+    attacker: "Attaccante 1",
+  };
+  const team2 = teams.find((t) => t.id === team2Id) || {
+    id: "team2",
+    name: "Squadra 2",
+    emoji: "🍆",
+    defender: "Difensore 2",
+    attacker: "Attaccante 2",
+  }
 
   // Auto-computed scores
   const score1 = useMemo(() => computeScore(team1Stats, team2Stats), [team1Stats, team2Stats]);
@@ -363,14 +368,12 @@ export default function NewMatchModal({ teams, onClose, onSaved }: NewMatchModal
           {/* ── Stats: two columns on md+, stacked on mobile ── */}
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
             <StatsSection
-              teamName={team1?.name ?? "Squadra 1"}
-              teamEmoji={team1?.emoji}
+              team={team1}
               stats={team1Stats}
               onChange={setTeam1Stats}
             />
             <StatsSection
-              teamName={team2?.name ?? "Squadra 2"}
-              teamEmoji={team2?.emoji}
+              team={team2}
               stats={team2Stats}
               onChange={setTeam2Stats}
             />
