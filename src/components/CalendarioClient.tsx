@@ -39,9 +39,7 @@ export default function CalendarioClient({
 
   const allTeams = useMemo(
     () =>
-      tournament.groups.flatMap((g) =>
-        g.teams.map((t) => ({ id: t.id, name: t.name, emoji: t.emoji }))
-      ),
+      tournament.groups.flatMap((g) => g.teams),
     [tournament]
   );
 
