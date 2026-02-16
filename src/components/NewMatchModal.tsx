@@ -135,11 +135,37 @@ function StatsSection({
   team,
   stats,
   onChange,
+  showPlayerNames = false,
 }: {
   team: Team,
   stats: StatsForm;
   onChange: (s: StatsForm) => void;
+  showPlayerNames?: boolean;
 }) {
+  // helper to produce label based on key and showPlayerNames
+  const getLabel = (key: keyof StatsForm, defaultLabel: string) => {
+    if (!showPlayerNames) return defaultLabel;
+
+    // Use attacker/defender names from team if available
+    const attacker = team.attacker || "Attaccante";
+    const defender = team.defender || "Difensore";
+
+    switch (key) {
+      case "goalAttacker":
+        return `Gol ${attacker}`;
+      case "goalDefender":
+        return `Gol ${defender}`;
+      case "autogoalAttacker":
+        return `Autogol ${attacker}`;
+      case "autogoalDefender":
+        return `Autogol ${defender}`;
+      case "flash":
+        return "Flash";
+      default:
+        return defaultLabel;
+    }
+  };
+
   return (
     <div>
       <div className="mb-2 flex items-center gap-2">
@@ -156,7 +182,7 @@ function StatsSection({
         {statFields.map(({ key, label }) => (
           <Stepper
             key={key}
-            label={label}
+            label={getLabel(key, label)}
             value={stats[key]}
             onChange={(v) => onChange({ ...stats, [key]: v })}
           />
@@ -188,6 +214,7 @@ export default function NewMatchModal({ teams, onClose, onSaved }: NewMatchModal
   const [team2Stats, setTeam2Stats] = useState<StatsForm>(emptyStats);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showPlayerNames, setShowPlayerNames] = useState(false);
 
   const team1 = teams.find((t) => t.id === team1Id) || {
     id: "team1",
@@ -366,16 +393,30 @@ export default function NewMatchModal({ teams, onClose, onSaved }: NewMatchModal
           </div>
 
           {/* ── Stats: two columns on md+, stacked on mobile ── */}
+          {/* Toggle to switch labels between short and player names */}
+          <div className="flex items-center justify-end">
+            <label className="inline-flex items-center gap-3 text-sm font-medium text-muted-foreground">
+              <input
+                type="checkbox"
+                checked={showPlayerNames}
+                onChange={(e) => setShowPlayerNames(e.target.checked)}
+                className="h-4 w-4 rounded border-border bg-background text-primary focus:ring-0"
+              />
+              <span>Mostra nomi giocatori</span>
+            </label>
+          </div>
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
             <StatsSection
               team={team1}
               stats={team1Stats}
               onChange={setTeam1Stats}
+              showPlayerNames={showPlayerNames}
             />
             <StatsSection
               team={team2}
               stats={team2Stats}
               onChange={setTeam2Stats}
+              showPlayerNames={showPlayerNames}
             />
           </div>
 
